@@ -1,35 +1,63 @@
+import { useState } from 'react'
 import NavBar from './NavBar'
+
+// Preferred: put a local clip at public/hero.mp4 — it's tried first (faster, no
+// external dependency, works even with YouTube blocked on the visitor's network).
+// If it's missing or fails to load, the YouTube video below is used instead.
+const LOCAL_VIDEO_SRC = '/hero.mp4'
 
 // YouTube: "Stunning 4K Drone Footage of Mountain Landscape | Free Stock Video | No Copyright"
 const YOUTUBE_ID = 'AFikfSl1Xl0'
 
+type VideoSource = 'checking' | 'local' | 'youtube'
+
 export default function Hero() {
+  const [source, setSource] = useState<VideoSource>('checking')
+
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-[#f4f6f1]">
-      {/* Fallback backdrop: shows briefly while the YouTube iframe loads, or if it's blocked */}
+      {/* Fallback backdrop: shows while we're still checking, or if both video sources fail */}
       <div className="absolute inset-0 z-0" aria-hidden="true">
         <ContourBackdrop />
       </div>
 
-      <div className="absolute inset-0 z-0 overflow-hidden" style={{ pointerEvents: 'none' }} aria-hidden="true">
-        <iframe
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-          style={{
-            width: '177.78vh', // 16:9 cover-fit: always wide/tall enough to fill the box
-            height: '56.25vw',
-            minWidth: '100%',
-            minHeight: '100%',
-            pointerEvents: 'none',
-          }}
-          src={`https://www.youtube-nocookie.com/embed/${YOUTUBE_ID}?autoplay=1&mute=1&loop=1&playlist=${YOUTUBE_ID}&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0&playsinline=1`}
-          title="Hero background video"
-          allow="autoplay; encrypted-media"
-          frameBorder={0}
+      {/* Try the local video first — hidden until we know it actually loaded */}
+      {source !== 'youtube' && (
+        <video
+          className="absolute inset-0 z-0 h-full w-full object-cover"
+          style={{ opacity: source === 'local' ? 1 : 0 }}
+          src={LOCAL_VIDEO_SRC}
+          autoPlay
+          muted
+          loop
+          playsInline
+          onCanPlay={() => setSource('local')}
+          onError={() => setSource('youtube')}
         />
-      </div>
+      )}
 
-      {/* Invisible shield: guarantees no mouse event ever reaches the iframe, so its
-          hover-triggered YouTube UI (play/pause overlay etc.) can never appear. */}
+      {/* Only fall back to YouTube once we've confirmed there's no usable local video */}
+      {source === 'youtube' && (
+        <div className="absolute inset-0 z-0 overflow-hidden" style={{ pointerEvents: 'none' }} aria-hidden="true">
+          <iframe
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+            style={{
+              width: '177.78vh', // 16:9 cover-fit: always wide/tall enough to fill the box
+              height: '56.25vw',
+              minWidth: '100%',
+              minHeight: '100%',
+              pointerEvents: 'none',
+            }}
+            src={`https://www.youtube-nocookie.com/embed/${YOUTUBE_ID}?autoplay=1&mute=1&loop=1&playlist=${YOUTUBE_ID}&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0&playsinline=1`}
+            title="Hero background video"
+            allow="autoplay; encrypted-media"
+            frameBorder={0}
+          />
+        </div>
+      )}
+
+      {/* Invisible shield: guarantees no mouse event ever reaches the YouTube iframe, so its
+          hover-triggered UI (play/pause overlay etc.) can never appear. No-op for local video. */}
       <div className="absolute inset-0 z-[1]" aria-hidden="true" />
 
       <div className="absolute inset-0 z-[1] bg-gradient-to-b from-[#f4f6f1] via-transparent to-[#f4f6f1]" />
