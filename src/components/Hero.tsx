@@ -11,7 +11,7 @@ export default function Hero() {
         <ContourBackdrop />
       </div>
 
-      <div className="absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
+      <div className="absolute inset-0 z-0 overflow-hidden" style={{ pointerEvents: 'none' }} aria-hidden="true">
         <iframe
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
           style={{
@@ -28,7 +28,11 @@ export default function Hero() {
         />
       </div>
 
-      <div className="absolute inset-0 z-0 bg-gradient-to-b from-[#f4f6f1] via-transparent to-[#f4f6f1]" />
+      {/* Invisible shield: guarantees no mouse event ever reaches the iframe, so its
+          hover-triggered YouTube UI (play/pause overlay etc.) can never appear. */}
+      <div className="absolute inset-0 z-[1]" aria-hidden="true" />
+
+      <div className="absolute inset-0 z-[1] bg-gradient-to-b from-[#f4f6f1] via-transparent to-[#f4f6f1]" />
 
       <div className="relative z-10">
         <NavBar />
@@ -38,12 +42,6 @@ export default function Hero() {
         className="relative z-10 flex flex-col items-center justify-center text-center px-6"
         style={{ paddingTop: 'calc(8rem - 75px)', paddingBottom: '10rem' }}
       >
-        <div className="flex items-center gap-4 mb-10 animate-fade-rise">
-          <LogoBadge label="Бағдарлама 1" />
-          <span className="h-4 w-px bg-[#dfe3da]" />
-          <LogoBadge label="Бағдарлама 2" />
-        </div>
-
         <h1
           className="max-w-4xl font-normal text-[#12201a] animate-fade-rise"
           style={{
@@ -56,7 +54,10 @@ export default function Hero() {
           Зертте. Әрекет ет. Өзгеріс жаса.
         </h1>
 
-        <p className="max-w-2xl mt-8 text-base sm:text-lg leading-relaxed text-[#5c6b60] animate-fade-rise-delay">
+        <p
+          className="max-w-2xl mt-8 text-base sm:text-lg leading-relaxed text-[#12201a] animate-fade-rise-delay"
+          style={{ textShadow: '0 1px 16px rgba(244,246,241,0.85), 0 1px 3px rgba(244,246,241,0.9)' }}
+        >
           Оқушыны дайын ақпаратты жаттаушы емес, өз өлкесін зерттейтін, мәселені
           анықтайтын және шешім ұсынатын жас көшбасшы ретінде қалыптастыратын
           географиялық зертхана.
@@ -73,17 +74,6 @@ export default function Hero() {
           Зерттеуді бастау
         </a>
       </div>
-    </div>
-  )
-}
-
-function LogoBadge({ label }: { label: string }) {
-  return (
-    <div className="flex items-center gap-2 text-xs text-[#5c6b60]">
-      <span className="flex h-8 w-8 items-center justify-center rounded-full border border-[#dfe3da] bg-white text-[10px]">
-        LOGO
-      </span>
-      {label}
     </div>
   )
 }
