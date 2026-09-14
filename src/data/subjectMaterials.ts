@@ -21,6 +21,12 @@ export const subjectMaterials: Record<string, SubjectEntry> = {
       { label: 'Жер-ананың халыққа үндеуі', file: '/materials/kazakh-language/earth-appeal.docx' },
       { label: 'Оқушының халыққа үндеуі', file: '/materials/kazakh-language/student-appeal.docx' },
       { label: 'SWOT талдау (эссе)', file: '/materials/kazakh-language/swot-analysis.docx' },
+      { label: 'Үндеу хат', file: '/materials/kazakh-language/appeal-letter.mp4', type: 'video' },
+      {
+        label: 'Табиғат туралы өлең шумақтары',
+        file: '/materials/kazakh-language/nature-poem-verses.mp4',
+        type: 'video',
+      },
     ],
   },
   history: {
