@@ -36,7 +36,15 @@ export default function Interdisciplinary() {
           Ұяшыққа тінтуірді апарыңыз немесе түртіңіз
         </p>
 
-        <div className="flex gap-5 overflow-x-auto pb-4 pr-6 sm:pr-8 snap-x snap-proximity scroll-pr-6 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div
+          className="flex gap-5 overflow-x-auto pb-4 pr-6 sm:pr-8 snap-x snap-proximity scroll-pr-6 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          style={{
+            maskImage:
+              'linear-gradient(to right, transparent 0, black 24px, black calc(100% - 32px), transparent 100%)',
+            WebkitMaskImage:
+              'linear-gradient(to right, transparent 0, black 24px, black calc(100% - 32px), transparent 100%)',
+          }}
+        >
           {subjects.map((s) => {
             const hasPage = s.slug && subjectMaterials[s.slug]
             return (
