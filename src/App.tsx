@@ -1,3 +1,4 @@
+import { HashRouter, Routes, Route } from 'react-router-dom'
 import Hero from './components/Hero'
 import About from './components/About'
 import WeeklyTasks from './components/WeeklyTasks'
@@ -7,8 +8,9 @@ import Interdisciplinary from './components/Interdisciplinary'
 import Quote from './components/Quote'
 import Media from './components/Media'
 import Footer from './components/Footer'
+import SubjectMaterials from './pages/SubjectMaterials'
 
-export default function App() {
+function HomePage() {
   return (
     <div id="home">
       <Hero />
@@ -21,5 +23,16 @@ export default function App() {
       <Media />
       <Footer />
     </div>
+  )
+}
+
+export default function App() {
+  return (
+    <HashRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/pan/:slug" element={<SubjectMaterials />} />
+      </Routes>
+    </HashRouter>
   )
 }

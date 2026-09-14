@@ -63,7 +63,11 @@ export default function Hero() {
         </p>
 
         <a
-          href="#research"
+          href="#"
+          onClick={(e) => {
+            e.preventDefault()
+            document.getElementById('research')?.scrollIntoView({ behavior: 'smooth' })
+          }}
           className="rounded-full px-14 py-5 text-base mt-12 bg-[#12201a] text-white transition-transform hover:scale-[1.03] animate-fade-rise-delay-2"
         >
           Зерттеуді бастау
