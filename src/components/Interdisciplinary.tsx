@@ -1,22 +1,64 @@
 import { Link } from 'react-router-dom'
+import {
+  Atom,
+  FlaskConical,
+  Leaf,
+  BookOpen,
+  Landmark,
+  Cpu,
+  Wrench,
+  type LucideIcon,
+} from 'lucide-react'
 import { subjectMaterials } from '../data/subjectMaterials'
 
-const subjects = [
-  { name: 'Физика', link: 'Рельеф пен климаттың физикалық заңдылықтарын өлшеу және түсіндіру.', slug: null },
-  { name: 'Химия', link: 'Топырақ пен судың құрамын талдау, ластану деңгейін анықтау.', slug: 'chemistry' },
-  { name: 'Биология', link: 'Өлкенің өсімдік және жануарлар әлемін, экожүйе байланыстарын зерттеу.', slug: null },
+const subjects: {
+  name: string
+  link: string
+  slug: string | null
+  icon: LucideIcon
+}[] = [
+  {
+    name: 'Физика',
+    link: 'Рельеф пен климаттың физикалық заңдылықтарын өлшеу және түсіндіру.',
+    slug: null,
+    icon: Atom,
+  },
+  {
+    name: 'Химия',
+    link: 'Топырақ пен судың құрамын талдау, ластану деңгейін анықтау.',
+    slug: 'chemistry',
+    icon: FlaskConical,
+  },
+  {
+    name: 'Биология',
+    link: 'Өлкенің өсімдік және жануарлар әлемін, экожүйе байланыстарын зерттеу.',
+    slug: null,
+    icon: Leaf,
+  },
   {
     name: 'Қазақ тілі мен әдебиеті',
     link: 'Оқушылар зерттеу нәтижелерін үндеу мен эссе түрінде дәлелді тілде баяндайды.',
     slug: 'kazakh-language',
+    icon: BookOpen,
   },
   {
     name: 'Қазақстан тарихы',
     link: 'Алматының экологиялық тарихын және апорт өлкетану дерегін қазіргі зерттеумен байланыстыру.',
     slug: 'history',
+    icon: Landmark,
   },
-  { name: 'Информатика', link: 'Деректерді жинау, карта құрастыру және нәтижені платформада ұсыну.', slug: null },
-  { name: 'Технология', link: 'Зерттеу құралдарын және макеттерді өз қолымен жасау.', slug: null },
+  {
+    name: 'Информатика',
+    link: 'Деректерді жинау, карта құрастыру және нәтижені платформада ұсыну.',
+    slug: null,
+    icon: Cpu,
+  },
+  {
+    name: 'Технология',
+    link: 'Зерттеу құралдарын және макеттерді өз қолымен жасау.',
+    slug: null,
+    icon: Wrench,
+  },
 ]
 
 export default function Interdisciplinary() {
@@ -36,27 +78,25 @@ export default function Interdisciplinary() {
           Ұяшыққа тінтуірді апарыңыз немесе түртіңіз
         </p>
 
-        <div
-          className="flex gap-5 overflow-x-auto pb-4 pr-6 sm:pr-8 snap-x snap-proximity scroll-pr-6 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-          style={{
-            maskImage:
-              'linear-gradient(to right, transparent 0, black 24px, black calc(100% - 32px), transparent 100%)',
-            WebkitMaskImage:
-              'linear-gradient(to right, transparent 0, black 24px, black calc(100% - 32px), transparent 100%)',
-          }}
-        >
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
           {subjects.map((s) => {
             const hasPage = s.slug && subjectMaterials[s.slug]
+            const Icon = s.icon
             return (
               <div
                 key={s.name}
                 tabIndex={0}
-                className="group relative shrink-0 w-56 h-72 snap-start [perspective:1000px] cursor-pointer"
+                className="group relative h-64 [perspective:1000px] cursor-pointer"
               >
                 <div className="relative h-full w-full transition-transform duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] group-focus:[transform:rotateY(180deg)]">
-                  <div className="absolute inset-0 flex items-center justify-center rounded-2xl border border-[#dfe3da] bg-white p-6 text-center [backface-visibility:hidden]">
+                  <div className="absolute inset-0 overflow-hidden flex items-center justify-center rounded-2xl border border-[#dfe3da] bg-white p-6 text-center [backface-visibility:hidden]">
+                    <Icon
+                      className="absolute -bottom-4 -right-4 text-[#2f5d46] opacity-[0.07] pointer-events-none"
+                      size={112}
+                      strokeWidth={1.25}
+                    />
                     <span
-                      className="text-xl text-[#12201a]"
+                      className="relative text-xl text-[#12201a]"
                       style={{ fontFamily: 'var(--font-display)' }}
                     >
                       {s.name}
@@ -80,8 +120,6 @@ export default function Interdisciplinary() {
               </div>
             )
           })}
-          {/* trailing spacer so the last card can scroll fully into view */}
-          <div className="shrink-0 w-px" aria-hidden="true" />
         </div>
       </div>
     </section>
