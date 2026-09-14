@@ -1,73 +1,32 @@
-import { useEffect, useRef, useState } from 'react'
 import NavBar from './NavBar'
 
-// Drop a landscape/drone clip of the students' region here (e.g. public/hero.mp4).
-// If it fails to load, the animated contour-line backdrop below is used instead,
-// so the hero still looks intentional with no video present.
-const VIDEO_SRC = '/hero.mp4'
+// YouTube: "Stunning 4K Drone Footage of Mountain Landscape | Free Stock Video | No Copyright"
+const YOUTUBE_ID = 'AFikfSl1Xl0'
 
 export default function Hero() {
-  const videoRef = useRef<HTMLVideoElement>(null)
-  const [videoOk, setVideoOk] = useState(true)
-
-  useEffect(() => {
-    const video = videoRef.current
-    if (!video) return
-
-    let raf = 0
-    const FADE = 0.5
-
-    const tick = () => {
-      if (video.duration) {
-        const t = video.currentTime
-        const d = video.duration
-        if (t < FADE) {
-          video.style.opacity = String(t / FADE)
-        } else if (t > d - FADE) {
-          video.style.opacity = String(Math.max(0, (d - t) / FADE))
-        } else {
-          video.style.opacity = '1'
-        }
-      }
-      raf = requestAnimationFrame(tick)
-    }
-
-    const onEnded = () => {
-      video.style.opacity = '0'
-      window.setTimeout(() => {
-        video.currentTime = 0
-        video.play().catch(() => {})
-      }, 100)
-    }
-
-    video.addEventListener('ended', onEnded)
-    raf = requestAnimationFrame(tick)
-
-    return () => {
-      cancelAnimationFrame(raf)
-      video.removeEventListener('ended', onEnded)
-    }
-  }, [])
-
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-[#f4f6f1]">
-      {/* Fallback backdrop: contour lines, always present under the video */}
+      {/* Fallback backdrop: shows briefly while the YouTube iframe loads, or if it's blocked */}
       <div className="absolute inset-0 z-0" aria-hidden="true">
         <ContourBackdrop />
       </div>
 
-      {videoOk && (
-        <video
-          ref={videoRef}
-          className="absolute z-0 w-full object-cover"
-          style={{ top: '300px', inset: 'auto 0 0 0', opacity: 0 }}
-          src={VIDEO_SRC}
-          muted
-          playsInline
-          autoPlay
-          onError={() => setVideoOk(false)}
+      <div className="absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
+        <iframe
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+          style={{
+            width: '177.78vh', // 16:9 cover-fit: always wide/tall enough to fill the box
+            height: '56.25vw',
+            minWidth: '100%',
+            minHeight: '100%',
+            pointerEvents: 'none',
+          }}
+          src={`https://www.youtube-nocookie.com/embed/${YOUTUBE_ID}?autoplay=1&mute=1&loop=1&playlist=${YOUTUBE_ID}&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0&playsinline=1`}
+          title="Hero background video"
+          allow="autoplay; encrypted-media"
+          frameBorder={0}
         />
-      )}
+      </div>
 
       <div className="absolute inset-0 z-0 bg-gradient-to-b from-[#f4f6f1] via-transparent to-[#f4f6f1]" />
 

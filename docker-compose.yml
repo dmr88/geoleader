@@ -1,0 +1,7 @@
+services:
+  geoleader:
+    build: .
+    container_name: geoleader
+    restart: unless-stopped
+    ports:
+      - "8082:80"
