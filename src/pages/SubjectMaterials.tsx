@@ -1,5 +1,5 @@
 import { Link, useParams } from 'react-router-dom'
-import { subjectMaterials } from '../data/subjectMaterials'
+import { subjectMaterials, type SubjectMaterial } from '../data/subjectMaterials'
 
 export default function SubjectMaterials() {
   const { slug } = useParams<{ slug: string }>()
@@ -15,6 +15,10 @@ export default function SubjectMaterials() {
       </div>
     )
   }
+
+  const files = entry.items.filter((i) => (i.type ?? 'file') === 'file')
+  const images = entry.items.filter((i) => i.type === 'image')
+  const videos = entry.items.filter((i) => i.type === 'video')
 
   return (
     <div className="min-h-screen bg-[#f4f6f1]">
@@ -35,9 +39,39 @@ export default function SubjectMaterials() {
         </h1>
         <p className="text-base leading-relaxed text-[#3a453e] mb-12">{entry.intro}</p>
 
-        {entry.items.length > 0 ? (
+        {entry.items.length === 0 && (
+          <p className="text-sm text-[#8a988e] rounded-xl border border-dashed border-[#dfe3da] px-5 py-8 text-center">
+            Бұл пән бойынша материалдар жақын арада қосылады.
+          </p>
+        )}
+
+        {videos.length > 0 && (
+          <div className="mb-10 space-y-6">
+            {videos.map((v) => (
+              <div key={v.file}>
+                <video
+                  src={v.file}
+                  controls
+                  preload="metadata"
+                  className="w-full rounded-xl border border-[#dfe3da] bg-black aspect-video"
+                />
+                <p className="mt-2 text-sm text-[#5c6b60]">{v.label}</p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {images.length > 0 && (
+          <div className="mb-10 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {images.map((img) => (
+              <ImageWithCaption key={img.file} item={img} />
+            ))}
+          </div>
+        )}
+
+        {files.length > 0 && (
           <ul className="space-y-3">
-            {entry.items.map((item) => (
+            {files.map((item) => (
               <li key={item.file}>
                 <a
                   href={item.file}
@@ -50,12 +84,21 @@ export default function SubjectMaterials() {
               </li>
             ))}
           </ul>
-        ) : (
-          <p className="text-sm text-[#8a988e] rounded-xl border border-dashed border-[#dfe3da] px-5 py-8 text-center">
-            Бұл пән бойынша материалдар жақын арада қосылады.
-          </p>
         )}
       </div>
+    </div>
+  )
+}
+
+function ImageWithCaption({ item }: { item: SubjectMaterial }) {
+  return (
+    <div>
+      <img
+        src={item.file}
+        alt={item.label}
+        className="w-full aspect-[4/3] object-cover rounded-xl border border-[#dfe3da]"
+      />
+      <p className="mt-2 text-sm text-[#5c6b60]">{item.label}</p>
     </div>
   )
 }

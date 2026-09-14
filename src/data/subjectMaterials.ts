@@ -1,4 +1,8 @@
-export type SubjectMaterial = { label: string; file: string }
+export type SubjectMaterial = {
+  label: string
+  file: string
+  type?: 'file' | 'image' | 'video' // defaults to 'file'
+}
 
 export type SubjectEntry = {
   slug: string
@@ -38,7 +42,28 @@ export const subjectMaterials: Record<string, SubjectEntry> = {
     slug: 'chemistry',
     name: 'Химия пәнімен байланыс',
     intro:
-      'Топырақ пен судың химиялық құрамын талдау, ластану деңгейін анықтау бойынша материалдар.',
-    items: [],
+      'Автокөліктен бөлінетін көмірқышқыл газының мөлшерін есептеу және Алматы қаласы аудандарының ауа ластану деңгейін химиялық тұрғыдан талдау.',
+    items: [
+      {
+        label: 'Алматы қ. аудандарының ластану деңгейі',
+        file: '/materials/chemistry/almaty-districts-pollution.pptx',
+        type: 'file',
+      },
+      {
+        label: 'Ластануды есептеу видеосы',
+        file: '/materials/chemistry/pollution-calculation.mp4',
+        type: 'video',
+      },
+      {
+        label: 'Ластануды есептеу — тақтадағы шешім 1',
+        file: '/materials/chemistry/pollution-calculation-1.jpeg',
+        type: 'image',
+      },
+      {
+        label: 'Ластануды есептеу — тақтадағы шешім 2',
+        file: '/materials/chemistry/pollution-calculation-2.jpeg',
+        type: 'image',
+      },
+    ],
   },
 }
