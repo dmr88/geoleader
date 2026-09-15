@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { kazakhstanPaths, VIEWBOX_WIDTH, VIEWBOX_HEIGHT } from '../data/kazakhstanPaths'
-import { regionMeta, cities, geoToSvg } from '../data/kazakhstanRegions'
+import { regionMeta } from '../data/kazakhstanRegions'
 
 export default function KazakhstanMap() {
   const [activeId, setActiveId] = useState<string | null>(null)
@@ -17,7 +17,7 @@ export default function KazakhstanMap() {
           Құрғақшылыққа ұшыраған өңірлер
         </h2>
         <p className="text-center text-sm text-[#8a988e] max-w-2xl mx-auto mb-4">
-          14 облыстың 7-уі құрғақшылық пен жердің тозуына ерекше ұшыраған. Аймаққа
+          17 облыстың 7-уі құрғақшылық пен жердің тозуына ерекше ұшыраған. Аймаққа
           тінтуірді апарыңыз немесе түртіңіз.
         </p>
 
@@ -38,9 +38,6 @@ export default function KazakhstanMap() {
             aria-label="Қазақстан облыстарының картасы"
           >
             {kazakhstanPaths.map((p) => {
-              if (p.isWater) {
-                return <path key={p.id} d={p.d} fill="#c7d6d0" stroke="#f4f6f1" strokeWidth={1} pointerEvents="none" />
-              }
               const meta = regionMeta[p.id]
               const isActive = p.id === activeId
               return (
@@ -49,39 +46,49 @@ export default function KazakhstanMap() {
                   d={p.d}
                   tabIndex={0}
                   className="cursor-pointer outline-none"
-                  fill={meta?.arid ? '#b9713b' : '#2f5d46'}
-                  fillOpacity={isActive ? (meta?.arid ? 0.85 : 0.28) : meta?.arid ? 0.6 : 0.14}
+                  fill={meta?.arid ? '#b9713b' : meta?.isCity ? '#12201a' : '#2f5d46'}
+                  fillOpacity={
+                    isActive
+                      ? meta?.arid
+                        ? 0.85
+                        : meta?.isCity
+                          ? 0.7
+                          : 0.28
+                      : meta?.arid
+                        ? 0.6
+                        : meta?.isCity
+                          ? 0.55
+                          : 0.14
+                  }
                   stroke="#f4f6f1"
-                  strokeWidth={1.5}
+                  strokeWidth={1.2}
                   style={{ transition: 'fill-opacity 200ms ease' }}
                   onMouseEnter={() => setActiveId(p.id)}
                   onMouseLeave={() => setActiveId((cur) => (cur === p.id ? null : cur))}
                   onFocus={() => setActiveId(p.id)}
                   onClick={() => setActiveId((cur) => (cur === p.id ? null : p.id))}
                 >
-                  <title>{meta?.name ?? p.title}</title>
+                  <title>{meta?.name ?? p.name}</title>
                 </path>
               )
             })}
 
-            {cities.map((c) => {
-              const [x, y] = geoToSvg(c.lon, c.lat)
-              return (
-                <g key={c.id} pointerEvents="none">
-                  <rect x={x - 3.5} y={y - 3.5} width={7} height={7} transform={`rotate(45 ${x} ${y})`} fill="#12201a" />
+            {kazakhstanPaths
+              .filter((p) => regionMeta[p.id]?.isCity)
+              .map((p) => (
+                <g key={`label-${p.id}`} pointerEvents="none">
                   <text
-                    x={x}
-                    y={y - 10}
+                    x={p.labelX}
+                    y={p.labelY - 10}
                     textAnchor="middle"
-                    fontSize="12"
+                    fontSize="13"
                     fill="#12201a"
                     style={{ fontFamily: 'var(--font-body)' }}
                   >
-                    {c.name}
+                    {regionMeta[p.id]?.name.replace(' қаласы', '')}
                   </text>
                 </g>
-              )
-            })}
+              ))}
           </svg>
         </div>
 
