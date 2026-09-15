@@ -33,6 +33,8 @@ const photos = [
   { src: '/materials/physics/solar-panel-assembly.jpeg', alt: 'Күн панелін дайындау' },
   { src: '/materials/physics/solar-panel-finished-model.jpeg', alt: 'Күн панелі — дайын макет' },
   { src: '/materials/physics/solar-panel.jpeg', alt: 'Күн панелі' },
+  { src: '/materials/field-research/young-ecologists-club-order-1.jpeg', alt: '«Жас экологтар» клубын құру туралы бұйрық №22' },
+  { src: '/materials/field-research/young-ecologists-club-order-2.jpeg', alt: 'Бұйрық №22 — қол қойылған беті' },
 ]
 
 export default function Media() {
