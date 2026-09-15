@@ -1,9 +1,8 @@
-// Replace these with real numbers from the platform once tracking is wired up.
 const metrics = [
-  { value: 0, label: 'Қатысқан оқушылар' },
-  { value: 0, label: 'Аяқталған зерттеулер' },
-  { value: 0, label: 'Ұсынылған идеялар' },
-  { value: 0, label: 'Жүзеге асқан бастамалар' },
+  { value: 29, label: 'Қатысқан оқушылар' },
+  { value: 6, label: 'Аяқталған зерттеулер' },
+  { value: 6, label: 'Ұсынылған идеялар' },
+  { value: 5, label: 'Жүзеге асқан бастамалар' },
 ]
 
 export default function Metrics() {
