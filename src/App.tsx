@@ -2,6 +2,7 @@ import { HashRouter, Routes, Route } from 'react-router-dom'
 import Hero from './components/Hero'
 import About from './components/About'
 import WeeklyTasks from './components/WeeklyTasks'
+import KazakhstanMap from './components/KazakhstanMap'
 import Results from './components/Results'
 import Metrics from './components/Metrics'
 import Interdisciplinary from './components/Interdisciplinary'
@@ -16,6 +17,7 @@ function HomePage() {
       <Hero />
       <About />
       <WeeklyTasks />
+      <KazakhstanMap />
       <Results />
       <Metrics />
       <Interdisciplinary />
