@@ -1,37 +1,117 @@
-export type Region = {
-  id: string
+// Metadata for the real oblast boundaries in kazakhstanPaths.ts
+// (source: uploaded MapSVG file, pre-2022 14-oblast division).
+
+export type RegionMeta = {
+  id: string // matches KzPath.id
   name: string
-  // Position computed from real lat/long, normalized onto a 1000x500 canvas
-  // (lon 46.5–87.3°E -> x 0–1000, lat 40.6–55.4°N -> y 0–500, north = top).
-  x: number
-  y: number
   arid: boolean
   note: string
 }
 
-export const regions: Region[] = [
-  { id: 'wko', name: 'Батыс Қазақстан облысы', x: 120, y: 142, arid: true, note: 'Климаттың қатаңдануы мен жауын-шашынның азаюы салдарынан құрғақшылық үдеп келеді.' },
-  { id: 'atyrau', name: 'Атырау облысы', x: 132, y: 280, arid: true, note: 'Каспий маңы аймағы — судың тапшылығы мен топырақ тұздануы басты мәселе.' },
-  { id: 'mangystau', name: 'Маңғыстау облысы', x: 115, y: 397, arid: true, note: 'Үстірт үстіртінің шөлейт аймағы, жауын-шашын жылына 100-150 мм-ден аспайды.' },
-  { id: 'aktobe', name: 'Ақтөбе облысы', x: 263, y: 172, arid: true, note: 'Батыс өңірдегі негізгі құрғақшылық ошақтарының бірі.' },
-  { id: 'kostanay', name: 'Қостанай облысы', x: 419, y: 74, arid: true, note: 'Қарқынды егіншілік пен мал шаруашылығы топырақтың тозуын күшейтеді.' },
-  { id: 'akmola', name: 'Ақмола облысы', x: 561, y: 71, arid: true, note: 'Солтүстік дала аймағында егіншілік әсерінен топырақ тозуы байқалады.' },
-  { id: 'kyzylorda', name: 'Қызылорда облысы', x: 466, y: 357, arid: true, note: 'Арал теңізінің тартылуы аймақты әлемдегі ең жас шөл аймақтарының біріне айналдырды.' },
+export const regionMeta: Record<string, RegionMeta> = {
+  'KZ-ZAP': {
+    id: 'KZ-ZAP',
+    name: 'Батыс Қазақстан облысы',
+    arid: true,
+    note: 'Климаттың қатаңдануы мен жауын-шашынның азаюы салдарынан құрғақшылық үдеп келеді.',
+  },
+  'KZ-ATY': {
+    id: 'KZ-ATY',
+    name: 'Атырау облысы',
+    arid: true,
+    note: 'Каспий маңы аймағы — судың тапшылығы мен топырақ тұздануы басты мәселе.',
+  },
+  'KZ-MAN': {
+    id: 'KZ-MAN',
+    name: 'Маңғыстау облысы',
+    arid: true,
+    note: 'Үстірт үстіртінің шөлейт аймағы, жауын-шашын жылына 100-150 мм-ден аспайды.',
+  },
+  'KZ-AKT': {
+    id: 'KZ-AKT',
+    name: 'Ақтөбе облысы',
+    arid: true,
+    note: 'Батыс өңірдегі негізгі құрғақшылық ошақтарының бірі.',
+  },
+  'KZ-KUS': {
+    id: 'KZ-KUS',
+    name: 'Қостанай облысы',
+    arid: true,
+    note: 'Қарқынды егіншілік пен мал шаруашылығы топырақтың тозуын күшейтеді.',
+  },
+  'KZ-AKM': {
+    id: 'KZ-AKM',
+    name: 'Ақмола облысы',
+    arid: true,
+    note: 'Солтүстік дала аймағында егіншілік әсерінен топырақ тозуы байқалады.',
+  },
+  'KZ-KZY': {
+    id: 'KZ-KZY',
+    name: 'Қызылорда облысы',
+    arid: true,
+    note: 'Арал теңізінің тартылуы аймақты әлемдегі ең жас шөл аймақтарының біріне айналдырды.',
+  },
+  'KZ-SEV': {
+    id: 'KZ-SEV',
+    name: 'Солтүстік Қазақстан облысы',
+    arid: false,
+    note: 'Егіншілікке қолайлы дала аймағы.',
+  },
+  'KZ-PAV': {
+    id: 'KZ-PAV',
+    name: 'Павлодар облысы',
+    arid: false,
+    note: 'Өнеркәсіп пен ауыл шаруашылығы дамыған солтүстік-шығыс өңір.',
+  },
+  'KZ-VOS': {
+    id: 'KZ-VOS',
+    name: 'Шығыс Қазақстан облысы',
+    arid: false,
+    note: 'Алтай тау бөктерлеріндегі орманды-тау аймағы.',
+  },
+  'KZ-KAR': {
+    id: 'KZ-KAR',
+    name: 'Қарағанды облысы',
+    arid: false,
+    note: 'Орталық Қазақстанның ірі өнеркәсіп орталығы.',
+  },
+  'KZ-YUZ': {
+    id: 'KZ-YUZ',
+    name: 'Түркістан облысы',
+    arid: false,
+    note: 'Оңтүстіктегі суармалы егіншілік аймағы (бұрынғы Оңтүстік Қазақстан облысы).',
+  },
+  'KZ-ZHA': {
+    id: 'KZ-ZHA',
+    name: 'Жамбыл облысы',
+    arid: false,
+    note: 'Оңтүстіктегі ауыл шаруашылығы дамыған өңір.',
+  },
+  'KZ-ALM': {
+    id: 'KZ-ALM',
+    name: 'Алматы облысы',
+    arid: false,
+    note: 'Іле Алатауы бөктерлеріндегі жасыл аймақ — GEOLEADER жобасы осы өңірде.',
+  },
+}
 
-  { id: 'nko', name: 'Солтүстік Қазақстан облысы', x: 554, y: 17, arid: false, note: 'Егіншілікке қолайлы дала аймағы.' },
-  { id: 'pavlodar', name: 'Павлодар облысы', x: 745, y: 105, arid: false, note: 'Өнеркәсіп пен ауыл шаруашылығы дамыған солтүстік-шығыс өңір.' },
-  { id: 'vko', name: 'Шығыс Қазақстан облысы', x: 886, y: 184, arid: false, note: 'Алтай тау бөктерлеріндегі орманды-тау аймағы.' },
-  { id: 'abai', name: 'Абай облысы', x: 828, y: 169, arid: false, note: '2022 жылы Шығыс Қазақстан облысынан бөлінген жаңа өңір.' },
-  { id: 'karaganda', name: 'Қарағанды облысы', x: 652, y: 189, arid: false, note: 'Орталық Қазақстанның ірі өнеркәсіп орталығы.' },
-  { id: 'ulytau', name: 'Ұлытау облысы', x: 520, y: 257, arid: false, note: '2022 жылы Қарағанды облысынан бөлінген, Бетпақдала шөліне жақын өңір.' },
-  { id: 'turkestan', name: 'Түркістан облысы', x: 535, y: 408, arid: false, note: 'Оңтүстіктегі суармалы егіншілік аймағы.' },
-  { id: 'zhambyl', name: 'Жамбыл облысы', x: 610, y: 422, arid: false, note: 'Оңтүстіктегі ауыл шаруашылығы дамыған өңір.' },
-  { id: 'almaty-obl', name: 'Алматы облысы', x: 784, y: 352, arid: false, note: 'Іле Алатауы бөктерлеріндегі жасыл аймақ — GEOLEADER жобасы осы өңірде.' },
-  { id: 'zhetisu', name: 'Жетісу облысы', x: 811, y: 318, arid: false, note: '2022 жылы Алматы облысынан бөлінген жаңа өңір.' },
-]
+// Real lon/lat -> this SVG's own coordinate space, using the source file's geoViewBox
+// (minLon 46.48944, maxLat 55.432742, maxLon 87.315881, minLat 40.549293).
+const MIN_LON = 46.48944
+const MAX_LAT = 55.432742
+const MAX_LON = 87.315881
+const MIN_LAT = 40.549293
+const SVG_W = 792.54694
+const SVG_H = 434.92221
 
-export const cities: { id: string; name: string; x: number; y: number }[] = [
-  { id: 'astana', name: 'Астана', x: 611, y: 142 },
-  { id: 'almaty', name: 'Алматы', x: 745, y: 411 },
-  { id: 'shymkent', name: 'Шымкент', x: 567, y: 443 },
+export function geoToSvg(lon: number, lat: number): [number, number] {
+  const x = ((lon - MIN_LON) / (MAX_LON - MIN_LON)) * SVG_W
+  const y = ((MAX_LAT - lat) / (MAX_LAT - MIN_LAT)) * SVG_H
+  return [x, y]
+}
+
+export const cities: { id: string; name: string; lon: number; lat: number }[] = [
+  { id: 'astana', name: 'Астана', lon: 71.45, lat: 51.18 },
+  { id: 'almaty', name: 'Алматы', lon: 76.9, lat: 43.25 },
+  { id: 'shymkent', name: 'Шымкент', lon: 69.6, lat: 42.3 },
 ]
