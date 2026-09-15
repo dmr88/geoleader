@@ -19,6 +19,7 @@ export default function SubjectMaterials() {
   const files = entry.items.filter((i) => (i.type ?? 'file') === 'file')
   const images = entry.items.filter((i) => i.type === 'image')
   const videos = entry.items.filter((i) => i.type === 'video')
+  const youtubeVideos = entry.items.filter((i) => i.type === 'youtube')
 
   return (
     <div className="min-h-screen bg-[#f4f6f1]">
@@ -43,6 +44,35 @@ export default function SubjectMaterials() {
           <p className="text-sm text-[#8a988e] rounded-xl border border-dashed border-[#dfe3da] px-5 py-8 text-center">
             Бұл пән бойынша материалдар жақын арада қосылады.
           </p>
+        )}
+
+        {youtubeVideos.length > 0 && (
+          <div className="mb-10 space-y-6">
+            {youtubeVideos.map((v) => {
+              const id = getYoutubeId(v.file)
+              return (
+                <div key={v.file}>
+                  {id ? (
+                    <div className="aspect-video rounded-xl overflow-hidden border border-[#dfe3da]">
+                      <iframe
+                        className="w-full h-full"
+                        src={`https://www.youtube-nocookie.com/embed/${id}`}
+                        title={v.label}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        frameBorder={0}
+                      />
+                    </div>
+                  ) : (
+                    <a href={v.file} target="_blank" rel="noreferrer" className="text-sm text-[#2f5d46] underline">
+                      {v.label}
+                    </a>
+                  )}
+                  <p className="mt-2 text-sm text-[#5c6b60]">{v.label}</p>
+                </div>
+              )
+            })}
+          </div>
         )}
 
         {videos.length > 0 && (
@@ -88,6 +118,11 @@ export default function SubjectMaterials() {
       </div>
     </div>
   )
+}
+
+function getYoutubeId(url: string): string | null {
+  const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/)
+  return match ? match[1] : null
 }
 
 function ImageWithCaption({ item }: { item: SubjectMaterial }) {

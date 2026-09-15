@@ -1,7 +1,7 @@
 export type SubjectMaterial = {
   label: string
   file: string
-  type?: 'file' | 'image' | 'video' // defaults to 'file'
+  type?: 'file' | 'image' | 'video' | 'youtube' // defaults to 'file'
 }
 
 export type SubjectEntry = {
@@ -12,6 +12,31 @@ export type SubjectEntry = {
 }
 
 export const subjectMaterials: Record<string, SubjectEntry> = {
+  physics: {
+    slug: 'physics',
+    name: 'Физика пәнімен байланыс',
+    intro:
+      'Күн панелінің макеті — физика заңдылықтарын (жарық энергиясын электр энергиясына түрлендіру) далалық жобамен байланыстыратын практикалық жұмыс.',
+    items: [
+      { label: 'Жасыл энергия', file: '/materials/physics/green-energy.jpeg', type: 'image' },
+      {
+        label: 'Күн панелін дайындау',
+        file: '/materials/physics/solar-panel-assembly.jpeg',
+        type: 'image',
+      },
+      {
+        label: 'Күн панелі — дайын макет',
+        file: '/materials/physics/solar-panel-finished-model.jpeg',
+        type: 'image',
+      },
+      { label: 'Күн панелі', file: '/materials/physics/solar-panel.jpeg', type: 'image' },
+      {
+        label: 'Күн панелі туралы бейнематериал',
+        file: 'https://youtu.be/SjD3j-5kTdw',
+        type: 'youtube',
+      },
+    ],
+  },
   'kazakh-language': {
     slug: 'kazakh-language',
     name: 'Қазақ тілі мен әдебиеті пәнімен байланыс',

@@ -26,9 +26,13 @@ const videos = [
 ]
 
 const photos = [
-  '/materials/field-research/young-ecologists-1.jpg',
-  '/materials/field-research/young-ecologists-2.jpg',
-  '/materials/field-research/young-ecologists-3.jpg',
+  { src: '/materials/field-research/young-ecologists-1.jpg', alt: 'Жас экологтар мектеп ауласын тазартуда' },
+  { src: '/materials/field-research/young-ecologists-2.jpg', alt: 'Жас экологтар мектеп ауласын тазартуда' },
+  { src: '/materials/field-research/young-ecologists-3.jpg', alt: 'Жас экологтар мектеп ауласын тазартуда' },
+  { src: '/materials/physics/green-energy.jpeg', alt: 'Жасыл энергия' },
+  { src: '/materials/physics/solar-panel-assembly.jpeg', alt: 'Күн панелін дайындау' },
+  { src: '/materials/physics/solar-panel-finished-model.jpeg', alt: 'Күн панелі — дайын макет' },
+  { src: '/materials/physics/solar-panel.jpeg', alt: 'Күн панелі' },
 ]
 
 export default function Media() {
@@ -58,11 +62,11 @@ export default function Media() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {photos.map((src) => (
+          {photos.map((p) => (
             <img
-              key={src}
-              src={src}
-              alt="Жас экологтар мектеп ауласын тазартуда"
+              key={p.src}
+              src={p.src}
+              alt={p.alt}
               className="w-full aspect-[4/3] object-cover rounded-xl border border-[#dfe3da]"
             />
           ))}

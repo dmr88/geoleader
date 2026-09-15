@@ -20,7 +20,7 @@ const subjects: {
   {
     name: 'Физика',
     link: 'Рельеф пен климаттың физикалық заңдылықтарын өлшеу және түсіндіру.',
-    slug: null,
+    slug: 'physics',
     icon: Atom,
   },
   {
